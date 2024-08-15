@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruby Star</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: yellow;
+            height: 100vh;
+            overflow-y: auto;
+            background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+        }
+
+        #app {
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .red-box {
+            border: 2px solid red;
+            padding: 10px;
+            background-color: red;
+            color: yellow;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        .logo {
+            width: 200px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .loading-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://starquest-talent-network.simdif.com/images/public/sd_66b1535ed80c9.jpg?no_cache=1722904453');
+            background-size: cover;
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .loading-box {
+            width: 100px;
+            height: 100px;
+            border: 5px solid yellow;
+            border-radius: 50%;
+            border-top: 5px solid red;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .login-screen {
+            display: none;
+            background-image: url('https://starquest-talent-network.simdif.com/images/public/sd_66b15347ea462.jpg?no_cache=1722904432');
+            background-size: cover;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            box-sizing: border-box;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .login-form input {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            color: black;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .login-form button {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff512f;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .login-form button:hover {
+            background-color: #dd2476;
+        }
+
+        .dashboard {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            animation: fadeIn 1.5s ease-in-out;
+            background-image: url('https://starquest-talent-network.simdif.com/images/public/sd_66b1531e019e7.jpg?no_cache=1722904397');
+            background-size: cover;
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .balance {
+            color: green;
+            font-weight: bold;
+            font-size: 24px;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-30px);
+            }
+            60% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .withdraw-form,
+        .referral-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .withdraw-form input,
+        .referral-form input {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            color: black;
+            width: 100%;
+            box-sizing: border-box;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .withdraw-form button,
+        .referral-form button {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff512f;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .withdraw-form button:hover,
+        .referral-form button:hover {
+            background-color: #dd2476;
+        }
+
+        .time-date {
+            font-size: 18px;
+            margin-top: 10px;
+            color: yellow;
+            border: 2px solid red;
+            border-radius: 50%;
+            padding: 10px;
+            background-color: red;
+            animation: spin 10s linear infinite;
+        }
+
+        .ruby-id-display {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: yellow;
+            border: 2px solid red;
+            padding: 5px;
+            background-color: red;
+            border-radius: 5px;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        .task-list {
+            text-align: left;
+            width: 100%;
+            box-sizing: border-box;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .task-list h2 {
+            color: black;
+            animation: pulse 2s infinite;
+        }
+
+        .task-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .task-list li {
+            margin-bottom: 10px;
+            color: black;
+        }
+
+        .task-list button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff512f;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .task-list button:hover {
+            background-color: #dd2476;
+        }
+
+        .task-list button:disabled {
+            background-color: grey;
+            cursor: not-allowed;
+        }
+
+        .flash-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: yellow;
+            color: red;
+            padding: 10px;
+            border: 2px solid red;
+            border-radius: 5px;
+            display: none;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        .diamond-button {
+            width: 150px;
+            height: 150px;
+            background-color: #ff512f;
+            color: white;
+            text-align: center;
+            line-height: 150px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            clip-path: polygon(50% 100%, 0% 62%, 19% 0%, 81% 0%, 100% 62%);
+            margin: 20px auto;
+            animation: fadeIn 2s ease-in-out, pulse 2s infinite;
+        }
+
+        .diamond-button span {
+            display: block;
+            transform: rotate(45deg);
+            line-height: 90px;
+        }
+
+        .diamond-button:hover {
+            background-color: #dd2476;
+            transform: scale(1.1);
+        }
+
+        .referral-count {
+            color: yellow;
+            font-size: 20px;
+            margin: 20px 0;
+            animation: pulse 2s infinite;
+        }
+
+        .withdrawal-history-button {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff512f;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            animation: fadeIn 1s ease-in-out;
+            margin-top: 20px;
+        }
+
+        .withdrawal-history-button:hover {
+            background-color: #dd2476;
+        }
+
+        .withdrawal-history-table {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .withdrawal-history-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .withdrawal-history-table th, .withdrawal-history-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .withdrawal-history-table th {
+            background-color: #ff512f;
+            color: white;
+        }
+
+        .withdrawal-history-table td {
+            background-color: white;
+            color: black;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="loading-screen" id="loading-screen">
+            <div class="loading-box"></div>
+            <p>Loading...</p>
+        </div>
+
+        <div class="login-screen" id="login-screen">
+            <h1 class="red-box">Welcome to Ruby Star</h1>
+            <div class="login-form">
+                <input type="text" id="ruby-id" placeholder="RUBY ID">
+                <input type="password" id="password" placeholder="Password">
+                <button onclick="login()">Login</button>
+            </div>
+        </div>
+
+        <div class="dashboard" id="dashboard">
+            <div class="ruby-id-display" id="ruby-id-display"></div>
+            <h1 class="red-box">Dashboard</h1>
+            <p class="referral-count">Referrals: <span id="referral-count">0</span></p>
+            <div class="task-list red-box">
+                <h2>Tasks:</h2>
+                <ul>
+                    <li>1) Watch videos, like, comment and subscribe - ₦500 <button id="task1" onclick="completeTask(500, 'task1')">Done</button></li>
+                    <li>2) Sign up using special links - ₦250 <button id="task2" onclick="completeTask(250, 'task2')">Done</button></li>
+                    <li>3) Visit a website - ₦200 <button id="task3" onclick="completeTask(250, 'task3')">Done</button></li>
+                    <li>4) Join groups and like posts - ₦250 <button id="task4" onclick="completeTask(250, 'task4')">Done</button></li>
+                    <li>5) Repost or retweet on your WhatsApp, X(Twitter), Telegram or Facebook - ₦500 <button id="task5" onclick="completeTask(500, 'task5')">Done</button></li>
+                    <li>6) Like pages and view them - ₦200 <button id="task6" onclick="completeTask(200, 'task6')">Done</button></li>
+                </ul>
+            </div>
+            <p class="balance red-box">Balance: ₦<span id="balance-amount">0</span></p>
+            <button class="red-box" onclick="dailyLoginReward()">Daily Login Reward</button>
+            <div class="withdraw-form red-box">
+                <input type="text" id="bank-account-number" placeholder="Bank Account Number">
+                <input type="text" id="bank-name" placeholder="Bank Name">
+                <input type="text" id="withdraw-amount" placeholder="Amount to Withdraw">
+                <button onclick="withdraw()">Withdraw</button>
+            </div>
+            <div class="referral-form red-box">
+                <input type="text" id="referral-code" placeholder="Referral/Bonus Fund Code">
+                <button onclick="applyReferralCode()">Apply Code</button>
+            </div>
+            <div class="diamond-button" onclick="startTasks()">
+                <span>Start Tasks</span>
+            </div>
+            <button class="withdrawal-history-button" onclick="toggleWithdrawalHistory()">View Withdrawal History</button>
+            <div class="withdrawal-history-table" id="withdrawal-history-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="withdrawal-history-body">
+                        <!-- Withdrawal history will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="time-date" id="time-date"></div>
+        </div>
+        <div class="flash-message" id="flash-message">Reward granted 🤑,Be sure you completed your task if you cheated you'll be PENALIZED🕵️‍♂️🤔</div>
+    </div>
+
+    <script>
+        let balance = 0;
+        let referrals = 0;
+        const localStorageKey = 'rubyStarAppData';
+        const withdrawalHistoryKey = 'rubyStarWithdrawalHistory';
+
+        function updateBalance() {
+            document.getElementById('balance-amount').textContent = balance;
+        }
+
+        function updateReferralCount() {
+            document.getElementById('referral-count').textContent = referrals;
+        }
+
+        function showFlashMessage(message) {
+            const flashMessage = document.getElementById('flash-message');
+            flashMessage.textContent = message;
+            flashMessage.style.display = 'block';
+            setTimeout(() => {
+                flashMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        function completeTask(amount, taskId) {
+            const now = new Date();
+            const lastPressed = new Date(localStorage.getItem(taskId) || 0);
+            if (now.toDateString() !== lastPressed.toDateString()) {
+                balance += amount;
+                updateBalance();
+                document.getElementById(taskId).disabled = true;
+                localStorage.setItem(taskId, now.toISOString());
+                localStorage.setItem(localStorageKey, JSON.stringify({ balance: balance, referrals: referrals }));
+                showFlashMessage("Reward granted ✅🤑Task completed!(Be sure you Completed this task or you'll be penalized");
+            } else {
+                alert('You can only complete this task once a day.');
+            }
+        }
+
+        function dailyLoginReward() {
+            const now = new Date();
+            const lastLogin = new Date(localStorage.getItem('lastLogin') || 0);
+            if (now.toDateString() !== lastLogin.toDateString()) {
+                balance += 500;
+                updateBalance();
+                localStorage.setItem('lastLogin', now.toISOString());
+                alert('Daily login reward collected!');
+            } else {
+                alert('You have already collected your daily reward for today.');
+            }
+        }
+
+        function withdraw() {
+            const accountNumber = document.getElementById('bank-account-number').value;
+            const bankName = document.getElementById('bank-name').value;
+            const withdrawAmount = parseInt(document.getElementById('withdraw-amount').value, 10);
+            const today = new Date();
+            const currentDay = today.getDate();
+
+            if (currentDay !== 15 && currentDay !== 30) {
+                alert('Withdrawals are only allowed on the 15th and 30th of each month.');
+                return;
+            }
+
+            if (referrals < 3) {
+                alert('You need at least 3 referrals to withdraw.');
+                return;
+            }
+
+            if (accountNumber && bankName && withdrawAmount > 0 && withdrawAmount <= balance) {
+                balance -= withdrawAmount;
+                updateBalance();
+                const withdrawalHistory = JSON.parse(localStorage.getItem(withdrawalHistoryKey)) || [];
+                withdrawalHistory.push({ date: today.toLocaleDateString(), amount: withdrawAmount });
+                localStorage.setItem(withdrawalHistoryKey, JSON.stringify(withdrawalHistory));
+                alert(`Withdrawal of ₦${withdrawAmount} to ${bankName} account number ${accountNumber} is successful.`);
+                localStorage.setItem(localStorageKey, JSON.stringify({ balance: balance, referrals: referrals }));
+                displayWithdrawalHistory();
+            } else {
+                alert('Please check your details and ensure you have enough balance.');
+            }
+        }
+
+        function applyReferralCode() {
+            const code = document.getElementById('referral-code').value.trim();
+            const code2000 = ["Q1h2001", "Cv9wd4bT", "DxFgSa", "1f2s3g", "ggg14888SsT", "dasvbk1n6", "lordgaIN4507", "ToomUcH1001", "WatcHeaRN23"];
+            const code1000 = ["zzzZaaaAcC1one", "B-12ig_C34ash@asset", "23aHgzic5aTl", "K33Pt01T"];
+            
+            if (code2000.includes(code)) {
+                balance += 2000;
+                referrals += 1;
+                alert('Referall verified successfully! ₦2000 has been added to your balance.');
+            } else if (code1000.includes(code)) {
+                balance += 1000;
+                referrals += 0;
+                alert('Code applied successfully! ₦1000 has been added to your balance.');
+            } else {
+                alert('Invalid code. Please try again.');
+                return;
+            }
+            updateBalance();
+            updateReferralCount();
+            localStorage.setItem(localStorageKey, JSON.stringify({ balance: balance, referrals: referrals }));
+            document.getElementById('referral-code').value = '';
+        }
+
+        function startTasks() {
+            window.location.href = 'https://rubystar.simdif.com';
+        }
+
+        function toggleWithdrawalHistory() {
+            const historyTable = document.getElementById('withdrawal-history-table');
+            if (historyTable.style.display === 'none' || historyTable.style.display === '') {
+                historyTable.style.display = 'block';
+                displayWithdrawalHistory();
+            } else {
+                historyTable.style.display = 'none';
+            }
+        }
+
+        function displayWithdrawalHistory() {
+            const withdrawalHistory = JSON.parse(localStorage.getItem(withdrawalHistoryKey)) || [];
+            const historyBody = document.getElementById('withdrawal-history-body');
+            historyBody.innerHTML = '';
+            withdrawalHistory.forEach(record => {
+                const row = document.createElement('tr');
+                const dateCell = document.createElement('td');
+                const amountCell = document.createElement('td');
+                dateCell.textContent = record.date;
+                amountCell.textContent = `₦${record.amount}`;
+                row.appendChild(dateCell);
+                row.appendChild(amountCell);
+                historyBody.appendChild(row);
+            });
+        }
+
+        window.onload = function() {
+            const savedData = JSON.parse(localStorage.getItem(localStorageKey));
+            if (savedData) {
+                balance = savedData.balance;
+                referrals = savedData.referrals || 0;
+                updateBalance();
+                updateReferralCount();
+            }
+
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('login-screen').style.display = 'flex';
+            }, 10000);
+
+            setInterval(() => {
+                const now = new Date();
+                document.getElementById('time-date').textContent = now.toLocaleString();
+            }, 1000);
+        }
+
+        function login() {
+            const rubyId = document.getElementById('ruby-id').value;
+            const password = document.getElementById('password').value;
+            const rubyIdPattern = /-RS1000$/;
+
+            if (rubyId && password) {
+                if (!rubyIdPattern.test(rubyId)) {
+                    alert('Invalid RUBY ID😬".');
+                    return;
+                }
+                localStorage.setItem('rubyId', rubyId);
+                localStorage.setItem('password', password);
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'flex';
+                document.getElementById('ruby-id-display').textContent = rubyId;
+                alert('Login successful! Welcome to your dashboard☺️✨.');
+            } else {
+                alert('Please enter your RUBY ID and password.');
+            }
+        }
+    </script>
+</body>
+</html>
